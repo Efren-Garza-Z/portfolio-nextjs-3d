@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  /* Fondo y Texto (Minimalista) */
+  --color-base-bg: #fafaf9; /* Un blanco cálido muy sutil (stone-50) */
+  --color-base-text: #1c1917; /* Gris muy oscuro, más elegante que el negro (stone-900) */
+
+  /* Acentos (Pastel / Divertido) */
+  --color-pastel-pink: #fce7f3;
+  --color-pastel-purple: #f3e8ff;
+  --color-pastel-mint: #ccfbf1;
+  --color-pastel-blue: #e0f2fe;
+  --color-pastel-yellow: #fef08a;
+}
+
+body {
+  background-color: var(--color-base-bg);
+  color: var(--color-base-text);
+  /* El antialiased hace que las fuentes se vean mucho más premium */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Utilidad para el Glassmorphism (Tarjetas o Navbar) */
+@utility glass {
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* --- ANIMACIONES DEL MINIJUEGO --- */
+/* Estado inicial oculto */
+#points, #button-start, #gameover {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Clases que tu UserInterface.js inserta automáticamente */
+.animate__fadeInDown {
+  animation: fadeInDown 0.5s forwards;
+  pointer-events: auto;
+}
+.animate__fadeOutUp {
+  animation: fadeOutUp 0.5s forwards;
+  pointer-events: none;
+}
+.animate__fadeOutDown {
+  animation: fadeOutDown 0.5s forwards;
+  pointer-events: none;
+}
+.animate__fadeInUp {
+  animation: fadeInUp 0.5s forwards;
+  pointer-events: auto;
+}
+
+/* Keyframes de movimiento */
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeOutUp {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-20px); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeOutDown {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(20px); }
+}

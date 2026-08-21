@@ -1,0 +1,167 @@
+{
+  "accessors": [
+    {
+      "componentType": 5125,
+      "count": 2214,
+      "type": "SCALAR"
+    },
+    {
+      "componentType": 5126,
+      "count": 373,
+      "max": [
+        1.0078324712958993,
+        1.0049073696136477,
+        1.0078430809226693
+      ],
+      "min": [
+        -1.0078393258300482,
+        -1.0029213465896307,
+        -1.0078287162032782
+      ],
+      "type": "VEC3"
+    },
+    {
+      "componentType": 5126,
+      "count": 373,
+      "max": [
+        3.4953699428742837,
+        3.68579506955615,
+        2.3565067844269736
+      ],
+      "min": [
+        -13.71621993371901,
+        -4.856999905795427,
+        -3.2042899448579267
+      ],
+      "type": "VEC3"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "Kyan0s (https://sketchfab.com/kyan0s)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/cloud-02-blacksmiths-workshop-assets-f6c7dfa350b349bc90e84bb6e674fdf2",
+      "title": "Cloud #02 - Blacksmith's workshop assets"
+    },
+    "generator": "Sketchfab-12.66.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteOffset": 0,
+      "byteLength": 1913
+    }
+  ],
+  "buffers": [
+    {
+      "name": "cloud",
+      "byteLength": 1920,
+      "uri": "data:application/octet-stream;base64,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"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "emissiveFactor": [
+        0.2,
+        0.2,
+        0.2
+      ],
+      "name": "clouds.001",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 1
+      },
+      "alphaMode": "OPAQUE"
+    }
+  ],
+  "meshes": [
+    {
+      "name": "cloud02_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 2
+          },
+          "indices": 0,
+          "material": 0,
+          "mode": 4,
+          "extensions": {
+            "KHR_draco_mesh_compression": {
+              "bufferView": 0,
+              "attributes": {
+                "NORMAL": 0,
+                "POSITION": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        2.220446049250313e-16,
+        -1,
+        0,
+        0,
+        1,
+        2.220446049250313e-16,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "name": "Root"
+    },
+    {
+      "children": [
+        3
+      ],
+      "name": "cloud02"
+    },
+    {
+      "mesh": 0,
+      "name": "cloud02_0"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "extensionsRequired": [
+    "KHR_draco_mesh_compression"
+  ],
+  "extensionsUsed": [
+    "KHR_draco_mesh_compression"
+  ]
+}

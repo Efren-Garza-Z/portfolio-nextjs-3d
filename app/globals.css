@@ -28,3 +28,46 @@ body {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.5);
 }
+
+/* --- ANIMACIONES DEL MINIJUEGO --- */
+/* Estado inicial oculto */
+#points, #button-start, #gameover {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Clases que tu UserInterface.js inserta automáticamente */
+.animate__fadeInDown {
+  animation: fadeInDown 0.5s forwards;
+  pointer-events: auto;
+}
+.animate__fadeOutUp {
+  animation: fadeOutUp 0.5s forwards;
+  pointer-events: none;
+}
+.animate__fadeOutDown {
+  animation: fadeOutDown 0.5s forwards;
+  pointer-events: none;
+}
+.animate__fadeInUp {
+  animation: fadeInUp 0.5s forwards;
+  pointer-events: auto;
+}
+
+/* Keyframes de movimiento */
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeOutUp {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-20px); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeOutDown {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(20px); }
+}

@@ -1,92 +1,116 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import {Suspense, useState} from "react";
 import { motion } from "framer-motion";
-// Aquí importarás tu clase App original cuando la pongas en tu proyecto
-import { App } from "@/utils/game/src/App";
+import {Canvas} from "@react-three/fiber";
+import {OrbitControls} from "@react-three/drei";
+import { Cloud } from "./models/Cloud.jsx"
 
 export default function StackGameWindow() {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const [isFocused, setIsFocused] = useState(false);
+    const [isGameActive, setIsGameActive] = useState(false);
 
-    // EFECTO PUENTE: Monta tu código Vanilla Three.js dentro de React
-    useEffect(() => {
-        if (typeof window === "undefined" || !containerRef.current) return;
-
-        // Descomenta esto cuando hayas movido tus archivos del juego a tu proyecto:
-
-        const app = new App(containerRef.current);
-
-        const handleResize = () => app.onResize();
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-          window.removeEventListener('resize', handleResize);
-          if (containerRef.current) containerRef.current.innerHTML = '';
-        };
-
-    }, []);
+    // ⚙️ Configuración del rebote (Spring)
+    const springTransition = {
+        type: "spring",
+        stiffness: 120, // Velocidad
+        damping: 12,    // Fricción (menos damping = más rebote)
+    };
 
     return (
-        <section className="relative w-full py-32 px-4 md:px-12 flex flex-col items-center justify-center min-h-screen">
+        <section className="relative w-full py-12 md:py-20 px-4 md:px-12 flex flex-col items-center justify-center min-h-screen overflow-x-hidden bg-[#87CEEB]">
 
-            <div className="text-center mb-10">
-                <h2 className="text-4xl md:text-6xl font-black text-stone-800 tracking-tighter drop-shadow-sm">
-                    TAKE A BREAK.
-                </h2>
-                <p className="text-stone-500 font-bold tracking-widest uppercase mt-2">
-                    Can you beat my high score?
-                </p>
-            </div>
-
-            {/* LA VENTANA DE CRISTAL */}
+            {/* TÍTULO PRINCIPAL CON NUBES */}
             <motion.div
-                layout
-                onClick={() => setIsFocused(true)}
-                onMouseLeave={() => setIsFocused(false)}
-                className={`relative w-full max-w-4xl h-[600px] rounded-2xl border border-white/40 shadow-2xl overflow-hidden transition-all duration-500 ${
-                    isFocused
-                        ? "scale-100 bg-white/10 backdrop-blur-none" // Modo Activo: Claro y listo para jugar
-                        : "scale-95 bg-white/30 backdrop-blur-md grayscale-[30%] cursor-pointer" // Modo Inactivo: Borroso y minimizado
-                }`}
+                initial={{ y: -50, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                className="relative w-full min-h-[180px] md:min-h-[250px] flex items-center justify-center mb-10 md:mb-20 z-10 pb-3"
             >
-                {/* Barra superior estilo MacOS */}
-                <div className="absolute top-0 left-0 w-full h-10 bg-white/20 backdrop-blur-md border-b border-white/30 z-50 flex items-center px-4 gap-2">
-                    <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
-                    <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-                    <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
-                    <span className="ml-2 text-xs font-bold text-stone-600 uppercase tracking-widest">
-            Stack.exe
-          </span>
+
+                {/* NUBE IZQUIERDA */}
+                {/* En móvil: w-[220px] y empujada a la orilla con left-[-70px]. En desktop: w-[450px] y left-0 */}
+                <div className="absolute left-[-70px] md:left-0 top-[-20px] md:top-[-50px] w-[220px] h-[220px] md:w-[450px] md:h-[450px] cursor-grab active:cursor-grabbing z-0">
+                    <Canvas camera={{ zoom: 1.4, position: [3, -15, -43] }}>
+                        <ambientLight intensity={3.5} />
+                        <pointLight position={[35, 35, 0]} intensity={1} />
+                        <pointLight position={[-35, 35, 0]} intensity={0.4} />
+                        <Suspense fallback={null}>
+                            <Cloud />
+                        </Suspense>
+                        <OrbitControls enableZoom={false} />
+                    </Canvas>
                 </div>
 
-                {/* CONTENEDOR DEL JUEGO (Target para tu clase App) */}
-                <div
-                    ref={containerRef}
-                    id="game-container"
-                    className="w-full h-full bg-[#2c3e50]"
-                >
-                    {/* Tu UI original de HTML insertada en React */}
-                    <div id="points" className="absolute w-full text-center top-[-10%] text-6xl font-sans text-white drop-shadow-[2px_2px_0_rgba(0,0,0,1)] z-40 pointer-events-none transition-all duration-500" />
-
-                    <div id="button-start" className="absolute w-full text-center top-[40%] z-40 transition-all duration-500">
-                        {/* Si no está enfocado, mostramos un aviso. Si está enfocado, mostramos el botón real de tu juego */}
-                        {!isFocused ? (
-                            <span className="bg-white/20 backdrop-blur-md px-6 py-3 rounded-full text-white font-bold tracking-widest shadow-lg">
-                CLICK TO ACTIVATE
-              </span>
-                        ) : (
-                            <button className="px-8 py-4 bg-transparent border-2 border-white rounded-md text-white text-3xl font-bold uppercase drop-shadow-[2px_2px_0_rgba(0,0,0,1)] hover:bg-[#64afcc] transition-colors pointer-events-auto shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                                Start
-                            </button>
-                        )}
-                    </div>
-
-                    <div id="gameover" className="absolute w-full text-center top-[-30%] text-5xl font-sans text-white drop-shadow-[2px_2px_0_rgba(0,0,0,1)] z-40 pointer-events-none transition-all duration-500">
-                        GAME OVER
-                    </div>
+                {/* TEXTO CENTRAL */}
+                {/* Ajustado a text-3xl en móvil y text-6xl en md */}
+                <div className="z-10 relative pointer-events-none px-4">
+                    <h2 className="text-2xl md:text-6xl text-stone-800 tracking-tighter drop-shadow-sm font-black text-center pointer-events-auto leading-tight">
+                        Hi, I'm Efren 👋 <br className="hidden md:block" />
+                        <span className="block md:inline mt-2 md:mt-0">A Software Engineer from Mexico</span>
+                    </h2>
                 </div>
+
+                {/* NUBE DERECHA */}
+                <div className="absolute right-[-70px] md:right-0 top-[-20px] md:top-[-50px] w-[220px] h-[220px] md:w-[450px] md:h-[450px] cursor-grab active:cursor-grabbing z-0">
+                    <Canvas camera={{ zoom: 1, position: [5, -10, 14] }}>
+                        <ambientLight intensity={3.5} />
+                        <pointLight position={[35, 35, 0]} intensity={1} />
+                        <pointLight position={[-35, 35, 0]} intensity={0.4} />
+                        <Suspense fallback={null}>
+                            <Cloud />
+                        </Suspense>
+                        <OrbitControls enableZoom={false} />
+                    </Canvas>
+                </div>
+
             </motion.div>
+
+            {/* CONTENEDOR PRINCIPAL: Flex-col en móvil (apilado), flex-row en desktop (lado a lado) */}
+            <div className="relative w-full h-auto md:h-[600px] flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4 z-10 max-w-7xl mx-auto">
+
+                {/* 1. PANEL IZQUIERDO: Tarjeta */}
+                <motion.div
+                    initial={{ x: -150, opacity: 0 }}
+                    whileInView={{ x: 0, opacity: 1 }}
+                    viewport={{ once: true }}
+                    // En móvil: Ancho completo (w-full), sin margen (ml-0). En desktop: w-[30%], ml-12 o ml-28
+                    className="w-full md:w-[35%] lg:w-[40%] h-auto md:h-full bg-[linear-gradient(to_bottom,#fefeff_0%,#86cbe8_80%)] rounded-3xl ml-0  p-6 md:p-8 flex flex-col justify-center order-1 md:order-none"
+                >
+                    <span className="text-[#3b9cd7] font-bold tracking-[0.2em] uppercase text-xs mb-2">
+                        Software Engineer
+                    </span>
+                    <h3 className="text-3xl md:text-4xl font-black text-stone-800 uppercase tracking-tight leading-none mb-4">
+                        Soy Efren <br />
+                        David Garza
+                    </h3>
+                    <p className="text-stone-600 text-sm md:text-base leading-relaxed">
+                        Apasionado por el desarrollo frontend, la creación de interfaces interactivas y soluciones web modernas. ¡Bienvenido a mi espacio!
+                    </p>
+
+                    <div className="mt-8">
+                        <button className="w-full md:w-auto bg-[#79C3E9] text-white font-bold px-6 py-3 rounded-full text-xs tracking-widest uppercase shadow-md hover:bg-[#2d85b8] transition-colors">
+                            Ver Proyectos
+                        </button>
+                    </div>
+                </motion.div>
+
+                {/* 2. PANEL DERECHO: Iframe del Minijuego */}
+                <motion.div
+                    initial={{ x: 150, opacity: 0 }}
+                    whileInView={{ x: 0, opacity: 1 }}
+                    viewport={{ once: true }}
+                    // En móvil: Altura fija (h-[450px]) para que no se coma toda la pantalla y bordes redondeados. En desktop recupera su h-full
+                    className="w-full md:w-[60%] lg:w-[50%] h-[500px] md:h-full overflow-hidden relative rounded-3xl md:rounded-none order-2 md:order-none"
+                >
+                    <iframe
+                        src="https://blocks-game-3d.vercel.app/"
+                        className="w-full h-full border-none rounded-3xl md:rounded-none"
+                        title="Stack Game"
+                        loading="lazy"
+                    />
+                </motion.div>
+
+            </div>
         </section>
     );
 }

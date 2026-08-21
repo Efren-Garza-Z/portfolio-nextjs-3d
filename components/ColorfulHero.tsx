@@ -24,7 +24,7 @@ const ResponsiveShape = ({ children, xOffset, yOffset, z, speed = 2 }: { childre
     return (
         <group position={[x, y, z]}>
             {/* cursor={['grab', 'grabbing']} fuerza a que el navegador muestre la manita cerrada al hacer clic */}
-            <PresentationControls snap={true} cursor={['grab', 'grabbing']} config={{ mass: 1, tension: 170 }}>
+            <PresentationControls snap={true}>
                 <Float speed={speed} rotationIntensity={1.5} floatIntensity={2}>
                     {children}
                 </Float>
@@ -35,7 +35,7 @@ const ResponsiveShape = ({ children, xOffset, yOffset, z, speed = 2 }: { childre
 
 export default function ColorfulHero() {
     return (
-        <section className="relative min-h-[100dvh] w-full overflow-hidden flex flex-col justify-center bg-gradient-to-b from-[#ffb5a7] to-[#ffc2b4]">
+        <section className="relative min-h-[100dvh] w-full overflow-hidden flex flex-col justify-center bg-[linear-gradient(to_bottom,#ffb5a7_40%,#87CEEB_70%)]">
 
             {/* TEXTO CENTRAL */}
             <div className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none px-4">
@@ -115,7 +115,7 @@ export default function ColorfulHero() {
                         </mesh>
                     </ResponsiveShape>
 
-                    <ContactShadows position={[0, -4, 0]} opacity={0.4} scale={25} blur={2.5} color="#d4a373" />
+                    <ContactShadows position={[0, -3.5, 0]} opacity={0.4} scale={25} blur={2.5} color="#d4a373" />
                 </Canvas>
             </div>
         </section>
